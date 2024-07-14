@@ -3,11 +3,12 @@
     --forecast-color:#166678;
     --background-color:#0e2e3b;
     --forth-color:#7db9b3;
+    --container-height:370px;
 }
 
 .container-sm {
     background-color: var(--background-color);
-    height: 335px;
+    height: var(--container-height);
 }
 
 .forecast {

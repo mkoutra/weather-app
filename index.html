@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
     <div class="container-sm rounded-2 mt-3 text-color">
         <header class="mb-3">
             <h1 class="text-center text-color">Weather Forecast</h1>
@@ -26,7 +25,7 @@
             </button>
         </div>
 
-        <main id="forecast" class="forecast rounded-3 d-flex justify-content-around align-items-center">
+        <main id="forecast" class="forecast rounded-3 d-flex justify-content-around align-items-start">
             <div id="mainWeather" class="d-flex flex-column justify-content-center align-items-center">
                 <div class="w-100 d-flex justify-content-center align-items-center">
                     <div class="image-size me-2 d-flex justify-content-center align-content-center">
@@ -39,28 +38,32 @@
                     </div>
                 </div>
 
+                <div class="fs-3">
+                    <span id="description">Modarate rain</span>
+                </div>
+
                 <div class="w-100 text-center">
                     <div class="temperature display-2">
                         <span id="temp"><i class="bi bi-thermometer-half"></i>35</span>
                         <span id="temp-unit">°C</span>
-                    </div>
-
-                    <div class="wind fs-3 d-flex justify-content-around">
-                        <div>
-                            <i class="bi bi-wind"></i>
-                            <span id="speed">4 Bf</span>
-                        </div>
-
-                        <div>
-                            <i class="bi bi-compass"></i>
-                            <span id="deg"> NE</span>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="detailsWeather" class="fs-5">
                 <ul>
+                    <li>
+                        <div class="wind d-flex justify-content-around">
+                            <div>
+                                <i class="bi bi-wind"></i>
+                                <span id="speed">4 Bf</span>
+                            </div>
+                            <div class="ms-3">
+                                <i class="bi bi-compass"></i>
+                                <span id="deg"> NE</span>
+                            </div>
+                        </div>
+                    </li>
                     <li>
                         <i class="bi bi-cloud-rain-heavy"></i>
                         <span id="rain">3.16</span> mm
@@ -81,7 +84,7 @@
             </div>
         </main>
 
-        <footer class="row mt-4 text-info text-center">
+        <footer class="row mt-2 text-info text-center">
             <div class="footer-text">
                 Michalis Koutrakis, 2024
             </div>
@@ -93,7 +96,7 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="./main.js"></script>
+    <script type="module" src="./main.js"></script>
 </body>
 
 </html>
