@@ -1,23 +1,25 @@
 :root {
     --text-color:#d8d7c3;
-    --main-weather-color:#166678;
+    --forecast-color:#166678;
     --background-color:#0e2e3b;
+    --forth-color:#7db9b3;
 }
 
-.container-lg {
-    border: 1px solid black;
+.container-sm {
     background-color: var(--background-color);
-    margin-top: 2%;
-    width: 700px;
+    height: 335px;
 }
 
-
-.main-weather {
-    background-color: var(--main-weather-color);
+.forecast {
+    background-color: var(--forecast-color);
 }
 
-.secondary-weather {
-    background-color: var(--details-weather-color);
+.btn {
+    background-color: var(--text-color);
+}
+
+.btn:hover {
+    background-color: var(--forth-color);
 }
 
 .text-color {
@@ -25,14 +27,8 @@
 }
 
 .image-size {
-    height: 70px;
-    width: 70px;
-}
-
-footer {
-    bottom: 0;
-    position: fixed;
-    border: 1px solid black;
+    height: 80px;
+    width: 80px;
 }
 
 ul {
@@ -45,4 +41,10 @@ ul > li {
 
 li > span {
     margin-left: 10px;
+}
+
+@media (min-width: 720px) {
+    .container-sm{
+        max-width: 600px;
+    }
 }

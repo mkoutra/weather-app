@@ -14,80 +14,74 @@
 
 <body>
 
-    <div class="container-lg">
-        <header>
+    <div class="container-sm rounded-2 mt-3 text-color">
+        <header class="mb-3">
             <h1 class="text-center text-color">Weather Forecast</h1>
         </header>
 
         <div class="search-bar input-group mb-3">
-            <input type="text" class="form-control rounded-pill" placeholder="Insert city name">
-            <button id="" class="btn btn-outline-secondary rounded-circle ms-3" type="button">
+            <input id="searchInput" type="text" class="form-control rounded-pill" placeholder="Insert city name">
+            <button id="searchBtn" class="btn rounded-circle ms-2" type="button">
                 <i class="bi bi-search"></i>
             </button>
         </div>
 
-        <main class="text-color">
-            <div class="main-weather d-flex justify-content-evenly align-items-center rounded-4 mb-3">
+        <main id="forecast" class="forecast rounded-3 d-flex justify-content-around align-items-center">
+            <div id="mainWeather" class="d-flex flex-column justify-content-center align-items-center">
+                <div class="w-100 d-flex justify-content-center align-items-center">
+                    <div class="image-size me-2 d-flex justify-content-center align-content-center">
+                        <img id="icon" src="https://openweathermap.org/img/wn/10d@2x.png">
+                    </div>
 
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="icon-area text-center image-size me-2">
-                            <img src="https://openweathermap.org/img/wn/10d@2x.png" class="image-size">
-                        </div>
+                    <div>
+                        <span id="name" class="fs-3">Athens<br></span>
+                        <span id="dateTime" class="fs-6">13/07 - 16:54<br></span>
+                    </div>
+                </div>
+
+                <div class="w-100 text-center">
+                    <div class="temperature display-2">
+                        <span id="temp"><i class="bi bi-thermometer-half"></i>35</span>
+                        <span id="temp-unit">°C</span>
+                    </div>
+
+                    <div class="wind fs-3 d-flex justify-content-around">
                         <div>
-                            <span id="cityName" class="city-name fs-3">Athens<br></span>
-                            <span id="dateTime" class="date-time fs-6">13/07 - 16:54<br></span>
-                        </div>
-                    </div>
-
-                    <!-- <span id="description" class="fs-5">Moderate Rain</span> -->
-                    
-                    <div class="temperature-info text-center">
-                        <div class="temperature d-flex align-items-center">
-                            <span id="temp" class="display-1"> <i class="bi bi-thermometer-half"></i>35</span>
-                            <span id="temp-unit" class="display-1">°C</span>
+                            <i class="bi bi-wind"></i>
+                            <span id="speed">4 Bf</span>
                         </div>
 
-                        
-                        <div class="wind fs-5 d-flex justify-content-around">
-                            <div class="speed">
-                                <i class="bi bi-wind"></i>
-                                <span id="speed"> 4 Bf</span>
-                            </div>
-                            <div class="wind-direction">
-                                <i class="bi bi-compass"></i>
-                                <span id="deg"> NE</span>
-                            </div>
+                        <div>
+                            <i class="bi bi-compass"></i>
+                            <span id="deg"> NE</span>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="main-weather-info">
-                    <ul>
-                        <li>
-                            <i class="bi bi-cloud-rain-heavy"></i>
-                            <span>3.16 mm</span>
-                        </li>
-                        <li>
-                            <i class="bi bi-droplet"></i>
-                            <span>38%</span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-eye"></i>
-                            <span>9 km</span>
-                        </li>
-                        
-                        <li>
-                            <i class="bi bi-speedometer"></i>
-                            <span>1015 hPa</span>
-                        </li>
-                      </ul>
-                </div>
+            <div id="detailsWeather" class="fs-5">
+                <ul>
+                    <li>
+                        <i class="bi bi-cloud-rain-heavy"></i>
+                        <span id="rain">3.16</span> mm
+                    </li>
+                    <li>
+                        <i class="bi bi-droplet"></i>
+                        <span id="humidity">38</span>%
+                    </li>
+                    <li>
+                        <i class="bi bi-eye"></i>
+                        <span id="visibility">9</span>km
+                    </li>
+                    <li>
+                        <i class="bi bi-speedometer"></i>
+                        <span id="pressure">1015</span>hPa
+                    </li>
+                </ul>
             </div>
         </main>
 
-        <footer>
+        <footer class="row mt-4 text-info text-center">
             <div class="footer-text">
                 Michalis Koutrakis, 2024
             </div>
