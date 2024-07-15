@@ -21,7 +21,45 @@ function getWeather(cityName) {
 }
 
 function handleForecast(forecastObject) {
+    if (forecastObject.cod !== "200") {
+        onApiError()
+        return
+    }
+    let transformedForecast = transformResponse(forecastObject)
+    buildWeather(transformedForecast)
+}
 
+/****************************************************************************/
+/****************************** Transformers ********************************/
+/****************************************************************************/
+
+function transformResponse(forecastObject) {
+    if (!forecastObject) return
+    transformDescription(forecastObject)
+    transformVisibility(forecastObject)
+    transformWind(forecastObject)
+    transformRain(forecastObject)
+    return forecastObject
+}
+
+/**
+ * Transform description of the forecast
+ * object to Capitalize Each Word.
+ * 
+ * @param {Object} forecastObject
+ *      The input forecast object.
+ * @returns {Object}
+ *      The transformed forecast object.
+ */
+function transformDescription(forecastObject) {
+    if (!forecastObject ||
+        !forecastObject.weather ||
+        !forecastObject.weather[0] ||
+        !forecastObject.weather[0].description) {
+            return forecastObject;
+    }
+    forecastObject.weather[0].description = _.startCase(forecastObject.weather[0].description);
+    return forecastObject;
 }
 
 /**
@@ -69,6 +107,28 @@ function transformWind(forecastObject) {
 }
 
 /**
+ * Transforms rain in the forecast object.
+ * 
+ * @param {Object} forecastObject
+ *      The input forecast object.
+ * @returns
+ *      The transformed object
+ */
+function transformRain(forecastObject) {
+    if (!forecastObject) return
+    if (!forecastObject.rain) {
+        forecastObject['rain'] = '-'
+    } else {
+        forecastObject['rain'] = forecastObject.rain['1h']
+    }
+    return forecastObject
+}
+
+/****************************************************************************/
+/******************************** Helpers ***********************************/
+/****************************************************************************/
+
+/**
  * Transforms and returns units of
  * wind speed from m/s to Beaufort.
  * 
@@ -92,8 +152,10 @@ function getBeaufortFromMS(speedMetric) {
  *      Local Unix time at the forecasted area.
  */
 function getLocalUnixTime(forecastObject) {
-    if (!forecastObject.hasOwnProperty('dt') || !forecastObject.hasOwnProperty('timezone'))
-        return
+    if (!forecastObject.hasOwnProperty('dt') ||
+        !forecastObject.hasOwnProperty('timezone')) {
+            return
+    }
     return forecastObject.dt + forecast.timezone
 }
 
@@ -119,17 +181,6 @@ function unixTimeToString(unixTimestampMilli) {
 }
 
 /**
- * Renders a date string to the UI.
- * 
- * @param {string} dateStr
- *      A string containing the date to be rendered.
- */
-function showDate(dateStr) {
-    if (dateStr) return
-    $('#dateTime').html(dateStr)
-}
-
-/**
  * Returns the wind direction name 
  * given the wind direction in degrees.
  * 
@@ -143,4 +194,89 @@ function getWindDirection(degrees) {
                         'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];    
     const index = Math.round(degrees / 22.5) % 16;
     return directions[index];
+}
+
+/****************************************************************************/
+/******************************* Rendering **********************************/
+/****************************************************************************/
+
+function buildWeather(transformedForecast) {
+    cleanSearch()
+    showMainWeather(transformedForecast)
+    showDetails(transformedForecast)
+}
+
+function cleanSearch() {
+    $('#searchInput').attr('placeholder', '')
+}
+
+function showMainWeather(transformedForecast) {
+    showIcon(transformedForecast)
+    showLocation(transformedForecast)
+    showDate(transformedForecast)
+    showDescription(transformedForecast)
+    showTemperature(transformedForecast)
+}
+
+function showDetails (transformedForecast) {
+    if (!transformedForecast) return
+    showWind(transformedForecast)
+    $('#rain').text(transformedForecast.rain)
+    $('#humidity').text(transformedForecast.main.humidity)
+    $('#visibility').text(transformedForecast.visibility)
+    $('#pressure').text(transformedForecast.main.pressure)
+}
+
+function showIcon(transformedForecast) {
+    let iconId = transformDescription.weather[0].icon
+    $('#icon').attr('src', `https://openweathermap.org/img/wn/${iconId}@2x.png`)
+}
+
+function showLocation(transformedForecast) {
+    $('#name').text(transformedForecast.name)
+    $('country').text(transformedForecast.sys.country)
+}
+
+function showDate(forecastObject) {
+    if (!forecastObject) return
+    const localUnixTime = getLocalUnixTime(forecastObject)
+    const dateStr = unixTimeToString(localUnixTime)
+    $('#dateTime').text(dateStr)
+}
+
+function showDescription(transformDescription) {
+    const description = transformDescription.weather[0].description
+    $('description').text(description)
+}
+
+function showTemperature(transformedForecast) {
+    showThermometer(transformedForecast)
+    $('#temp').text(transformedForecast.main.temp)
+}
+
+function showThermometer(transformedForecast) {
+    const types = ['', '-low' ,'-half', '-high']
+    const temp = transformedForecast.main.temp
+    let thermometerName = 'bi-thermometer'
+    let index
+
+    if (temp < 0) {
+        thermometerName += '-snow'
+    } else {
+        index = Math.floor(degrees / 10) <= 3 ? Math.floor(degrees / 10) : 3;
+        thermometerName += types[index]
+    }
+
+    $('#temperature').find('i').removeClass()   // Remove all classes
+    $('#temperature').find('i').addClass('bi')
+}
+
+function showWind(transformedForecast) {
+    if (!transformedForecast) return
+    $('#wind').find('#speed').text(transformedForecast.wind.speed)
+    $('#wind').find('#deg').text(transformedForecast.wind.deg)
+}
+
+function onApiError() {
+    console.log('API ERROR')
 }

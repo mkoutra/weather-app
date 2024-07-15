@@ -129,3 +129,12 @@ console.log(abc)
 console.log(Boolean(!abc))
 
 console.log(forecast.wind)
+
+function transformDescription(forecastObject) {
+    let {weather} = {...forecastObject}
+    console.log(forecastObject.weather[0].description)
+}
+
+transformDescription(forecast)
+
+console.log(forecast['main'])
