@@ -9,6 +9,9 @@ function getWeather(cityName) {
     let WEATHER_API_KEY
 
     xhr.open('GET', `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${WEATHER_API_KEY}`)
+    xhr.timeout = 5000
+    xhr.ontimeout = (e) => onApiError(e)
+    
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
@@ -18,10 +21,12 @@ function getWeather(cityName) {
             }
         }
     }
+
+    xhr.send()
 }
 
 function handleForecast(forecastObject) {
-    if (forecastObject.cod !== "200") {
+    if (forecastObject.cod !== 200) {
         onApiError()
         return
     }
@@ -59,6 +64,7 @@ function transformDescription(forecastObject) {
             return forecastObject;
     }
     forecastObject.weather[0].description = _.startCase(forecastObject.weather[0].description);
+    console.log(forecastObject.weather[0].description)
     return forecastObject;
 }
 
@@ -119,7 +125,7 @@ function transformRain(forecastObject) {
     if (!forecastObject.rain) {
         forecastObject['rain'] = '-'
     } else {
-        forecastObject['rain'] = forecastObject.rain['1h']
+        forecastObject['rain'] = forecastObject.rain['1h'] + " mm"
     }
     return forecastObject
 }
@@ -156,7 +162,7 @@ function getLocalUnixTime(forecastObject) {
         !forecastObject.hasOwnProperty('timezone')) {
             return
     }
-    return forecastObject.dt + forecast.timezone
+    return forecastObject.dt + forecastObject.timezone
 }
 
 /**
@@ -222,36 +228,36 @@ function showDetails (transformedForecast) {
     if (!transformedForecast) return
     showWind(transformedForecast)
     $('#rain').text(transformedForecast.rain)
-    $('#humidity').text(transformedForecast.main.humidity)
-    $('#visibility').text(transformedForecast.visibility)
-    $('#pressure').text(transformedForecast.main.pressure)
+    $('#humidity').text(transformedForecast.main.humidity + ' %')
+    $('#visibility').text(transformedForecast.visibility + ' km')
+    $('#pressure').text(transformedForecast.main.pressure + ' hPa')
 }
 
 function showIcon(transformedForecast) {
-    let iconId = transformDescription.weather[0].icon
+    let iconId = transformedForecast.weather[0].icon
     $('#icon').attr('src', `https://openweathermap.org/img/wn/${iconId}@2x.png`)
 }
 
 function showLocation(transformedForecast) {
     $('#name').text(transformedForecast.name)
-    $('country').text(transformedForecast.sys.country)
+    $('#country').text(transformedForecast.sys.country)
 }
 
 function showDate(forecastObject) {
     if (!forecastObject) return
     const localUnixTime = getLocalUnixTime(forecastObject)
-    const dateStr = unixTimeToString(localUnixTime)
+    const dateStr = unixTimeToString(localUnixTime * 1000)
     $('#dateTime').text(dateStr)
 }
 
-function showDescription(transformDescription) {
-    const description = transformDescription.weather[0].description
-    $('description').text(description)
+function showDescription(transformedForecast) {
+    const description = transformedForecast.weather[0].description
+    $('#description').text(description)
 }
 
 function showTemperature(transformedForecast) {
     showThermometer(transformedForecast)
-    $('#temp').text(transformedForecast.main.temp)
+    $('#temp').text(Math.floor(transformedForecast.main.temp))
 }
 
 function showThermometer(transformedForecast) {
@@ -263,17 +269,17 @@ function showThermometer(transformedForecast) {
     if (temp < 0) {
         thermometerName += '-snow'
     } else {
-        index = Math.floor(degrees / 10) <= 3 ? Math.floor(degrees / 10) : 3;
+        index = Math.floor(temp / 10) <= 3 ? Math.floor(temp / 10) : 3
         thermometerName += types[index]
     }
 
     $('#temperature').find('i').removeClass()   // Remove all classes
-    $('#temperature').find('i').addClass('bi')
+    $('#temperature').find('i').addClass(`bi ${thermometerName}`)
 }
 
 function showWind(transformedForecast) {
     if (!transformedForecast) return
-    $('#wind').find('#speed').text(transformedForecast.wind.speed)
+    $('#wind').find('#speed').text(transformedForecast.wind.speed + " Bf")
     $('#wind').find('#deg').text(transformedForecast.wind.deg)
 }
 
