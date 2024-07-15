@@ -76,11 +76,56 @@ showDate(getLocalUnixTime(forecast)*1000)
 
 function getWindDirection(degrees) {
     const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 
-                        'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];    
-    const index = Math.round(degrees / 22.5) % 16;
-    return directions[index];
+                        'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+    const index = Math.round(degrees / 22.5) % 16
+    return directions[index]
 }
 
 console.log(forecast.wind.deg + ": " + getWindDirection(forecast.wind.deg))
 
 console.log(getWindDirection(85))
+
+function getBeaufortFromMS(speedMetric) {
+    return Math.round(Math.pow((speedMetric / 0.836), 2./3.))
+}
+
+let {wind} = {...forecast}
+
+console.log(wind.speed + " " + getBeaufortFromMS(wind.speed))
+
+function transformVisibillity(forecastObject) {
+    if (!forecastObject) {
+        return;
+    }
+    forecastObject["visibility"] /= 1000
+    return forecastObject
+}
+
+console.log(transformVisibillity(forecast))
+
+console.log(forecast.hasOwnProperty('rain'))
+
+console.log(forecast['wind'].deg)
+
+function transformWind(forecastObject) {
+    if (!forecastObject) return;
+
+    let { wind} = {...forecastObject}
+    if (!wind) {
+        wind = {'speed':'-', 'deg':'-'}
+    } else {
+        wind.speed = wind.speed ? getBeaufortFromMS(wind.speed) : '-'
+        wind.deg = wind.deg ? getWindDirection(wind.deg) : '-'
+    }
+    forecastObject.wind = wind
+    return forecastObject
+}
+
+console.log(transformWind(forecast))
+
+let { abc} = {...forecast}
+console.log("---")
+console.log(abc)
+console.log(Boolean(!abc))
+
+console.log(forecast.wind)
