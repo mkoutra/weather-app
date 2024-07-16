@@ -1,18 +1,30 @@
 :root {
-    --text-color:#d8d7c3;
-    --forecast-color:#166678;
-    --background-color:#0e2e3b;
-    --forth-color:#7db9b3;
-    --container-height:370px;
+    --text-color: #d8d7c3;
+    --forecast-color: #166678;
+    --background-color: #0e2e3b;
+    --forth-color: #7db9b3;
 }
 
 .container-sm {
     background-color: var(--background-color);
-    height: var(--container-height);
 }
 
 .forecast {
     background-color: var(--forecast-color);
+}
+
+.icon-location {
+    height: 70px;
+    border-bottom: 1px solid var(--text-color);
+}
+
+.description {
+    min-height: 60px;
+    border-bottom: 1px solid var(--text-color);
+}
+
+.temperature {
+    min-height: 80px;
 }
 
 .btn {
@@ -34,11 +46,18 @@
 
 ul {
     list-style: none;
+    padding-left: 5px;
 }
 
 ul > li {
-    margin-top: 10px;
+    margin-top: 5px;
+    border-bottom: 1px solid var(--text-color);
 }
+
+ul > li:last-child {
+    border-bottom: none;
+}
+
 
 li > span {
     margin-left: 10px;

@@ -10,7 +10,7 @@ function getWeather(cityName) {
 
     xhr.open('GET', `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${WEATHER_API_KEY}`)
     xhr.timeout = 5000
-    xhr.ontimeout = (e) => onApiError(e)
+    xhr.ontimeout = () => onApiError()
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
