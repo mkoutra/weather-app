@@ -3,3 +3,7 @@
 **/.env
 
 jsconfig.json
+
+testing/
+
+CHANGES.txt

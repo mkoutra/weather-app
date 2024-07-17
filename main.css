@@ -14,12 +14,12 @@
 }
 
 .icon-location {
-    height: 70px;
+    /* height: 70px; */
     border-bottom: 1px solid var(--text-color);
 }
 
 .description {
-    min-height: 60px;
+    min-height: 70px;
     border-bottom: 1px solid var(--text-color);
 }
 

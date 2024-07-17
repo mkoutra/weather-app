@@ -33,15 +33,19 @@
             </div>
         </div>
 
-        <main id="forecast" class="forecast row rounded-3 mx-auto">
+        <div id="errorMessage" class="row text-center fs-3 mb-3 d-none">
+            <span id="message">City not found. Please try again.</span>
+        </div>
+
+        <main id="forecast" class="forecast row rounded-3 mx-auto d-none">
             <div id="mainWeather" class="col-sm-7 d-flex flex-column justify-content-center align-items-center">
-                <div class="icon-location w-100 d-flex">
-                    <div class="col-2 mx-1 d-flex align-items-center justify-content-center">
+                <div class="icon-location w-100 d-flex flex-grow-1">
+                    <div class="col-2 mx-1 d-flex justify-content-center">
                         <img id="icon" src="https://openweathermap.org/img/wn/10d@2x.png">
                     </div>
 
-                    <div class="col-10 ms-1">
-                        <span id="name" class="fs-3">New Delhi</span>
+                    <div class="col-10 ms-1 align-content-center">
+                        <span id="name" class="fs-3">Athens</span>
                         <span id="country">GR</span>
                         <br>
                         <span id="dateTime" class="fs-6">13/07 - 16:54</span>
@@ -55,7 +59,7 @@
                 <div class="temperature w-100 flex-grow-1 flex-shrink-0 align-content-center">
                     <div id="temperature" class="display-1">
                         <i class="bi bi-thermometer-half"></i>
-                        <span id="temp">35</span>°C
+                        <span id="temp">35</span>
                     </div>
                 </div>
             </div>
@@ -75,13 +79,17 @@
                             </div>
                         </div>
                     </li>
-                    <li class="">
+                    <li id="rainDiv" class="d-none">
                         <i class="bi bi-cloud-rain-heavy"></i>
-                        <span id="rain">13.16 mm</span>
+                        <span id="rain">13.16</span>
+                    </li>
+                    <li id="snowDiv" class="d-none">
+                        <i class="bi bi-snow"></i>
+                        <span id="snow">13.16</span>
                     </li>
                     <li>
                         <i class="bi bi-droplet"></i>
-                        <span id="humidity">38 %</span>
+                        <span id="humidity">38</span>
                     </li>
                     <li>
                         <i class="bi bi-eye"></i>
